@@ -1,0 +1,17 @@
+{
+  "name": "Viarsoft",
+  "short_name": "Viarsoft",
+  "description": "İşletmeniz için modern ve güvenilir yazılım çözümleri",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f2547",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

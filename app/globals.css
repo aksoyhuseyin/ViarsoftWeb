@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white text-navy-800 antialiased;
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Sabit header için anchor kaydırma boşluğu */
+  :target {
+    scroll-margin-top: 6rem;
+  }
+
+  ::selection {
+    @apply bg-accent-500/20 text-navy-900;
+  }
+
+  /* Odak erişilebilirliği */
+  :focus-visible {
+    outline: none;
+  }
+}
+
+@layer components {
+  /* Kaydırınca beliriş (scroll reveal) — components/ui/Reveal.tsx ile kullanılır */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Premium kart yüzeyi: taban katmanlı gölge + hover'da belirgin kalkma */
+  .card-lift {
+    @apply shadow-card transition-[transform,box-shadow,border-color,background-color] duration-300 ease-out;
+  }
+  .card-lift:hover {
+    @apply -translate-y-1 shadow-lift-hover;
+  }
+
+  /* Bölüm etiketi (eyebrow) — ince çerçeveli hap rozet */
+  .badge {
+    @apply inline-flex items-center gap-2 rounded-full border border-accent-100 bg-accent-50/60 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-accent-700;
+  }
+  .badge::before {
+    content: "";
+    @apply h-1.5 w-1.5 rounded-full bg-accent-500;
+  }
+
+  /* İnce mavi gradyanlı vurgu metni */
+  .text-gradient {
+    @apply bg-gradient-to-br from-accent-500 to-accent-700 bg-clip-text text-transparent;
+  }
+
+  /* Zengin metin (hizmet/kurumsal sayfa içerikleri) */
+  .prose-viar {
+    @apply text-navy-600;
+  }
+  .prose-viar h2 {
+    @apply mt-10 font-display text-2xl font-bold text-navy-900;
+  }
+  .prose-viar h3 {
+    @apply mt-6 font-display text-lg font-semibold text-navy-900;
+  }
+  .prose-viar p {
+    @apply mt-4 leading-relaxed;
+  }
+  .prose-viar ul {
+    @apply mt-4 space-y-2;
+  }
+}
+
+/* Hareket azaltma tercihine saygı */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
