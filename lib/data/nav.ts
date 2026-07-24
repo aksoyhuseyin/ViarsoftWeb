@@ -7,7 +7,6 @@ export interface NavItem {
 export const mainNav: NavItem[] = [
   { label: "Ana Sayfa", href: "/" },
   { label: "Hizmetler", href: "/hizmetler/" },
-  { label: "Çözümler", href: "/#cozumler" },
   { label: "Teknolojiler", href: "/teknolojiler/" },
   { label: "Süreç", href: "/#surec" },
   { label: "Hakkımızda", href: "/hakkimizda/" },
