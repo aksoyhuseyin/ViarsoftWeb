@@ -1,0 +1,12 @@
+# Cloudflare Pages header kuralları.
+# Bu dosya build sırasında public/ -> out/ kopyalanır ve Pages tarafından okunur.
+#
+# Next.js App Router statik export'u her rota için HTML'in yanında bir de RSC
+# payload dosyası üretir (/index.txt, /hizmetler/index.txt ...). Bu dosyalar
+# sayfa metninin aynısını text/plain olarak 200 ile sunar ve HTML olmadıkları
+# için canonical etiketi taşıyamazlar. Taranmaları hâlinde Search Console'da
+# "Kullanıcı tarafından seçilen standart sayfa olmadan kopya" üretirler.
+# X-Robots-Tag ile dizine eklenmeleri engellenir (tarama serbest kalır, bu
+# sayede Google kopyayı görüp yok sayabilir).
+/*.txt
+  X-Robots-Tag: noindex

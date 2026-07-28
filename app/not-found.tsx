@@ -4,6 +4,9 @@ import { ButtonLink } from "@/components/ui/Button";
 export const metadata: Metadata = {
   title: "Sayfa Bulunamadı",
   robots: { index: false, follow: false },
+  // Kök layout'taki canonical ("/") miras alınmasın: 404 sayfasının ana
+  // sayfayı standart sayfa olarak göstermesi yanlış sinyal verir.
+  alternates: null,
 };
 
 export default function NotFound() {
