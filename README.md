@@ -68,6 +68,32 @@ Cloudflare Pages panelinde yeni bir proje oluşturup depoyu bağladıktan sonra:
 Deponuz yoksa `out/` klasörünü doğrudan sürükle-bırak ile de yükleyebilirsiniz.
 `trailingSlash: true` sayesinde tüm rotalar `/klasör/` biçiminde çalışır.
 
+### www → apex yönlendirmesi (panelden, tek seferlik)
+
+`www.viarsoft.com` Pages'te özel alan adı olarak tanımlı olduğu için apex ile
+aynı içeriği 200 döndürür. Sayfalardaki canonical apex'e işaret ettiğinden
+Google yanlış sayfayı dizine eklemez, ancak her sayfayı iki kez tarar ve
+Search Console bunu "Doğru standart etikete sahip alternatif sayfa" olarak
+raporlar.
+
+Bu **depodan çözülemez**: Cloudflare Pages'in `_redirects` dosyası alan adı
+düzeyinde yönlendirmeyi desteklemez (yalnızca göreli yollar). Kural zone
+düzeyinde tanımlanmalıdır:
+
+**Dashboard → viarsoft.com → Rules → Redirect Rules → Create rule**
+
+| Alan | Değer |
+| ---- | ----- |
+| Name | `www -> apex` |
+| If → Custom filter expression | Field: `Hostname`, Operator: `equals`, Value: `www.viarsoft.com` |
+| Then → Type | `Dynamic` |
+| Expression | `concat("https://viarsoft.com", http.request.uri.path)` |
+| Status code | `301` |
+| Preserve query string | açık |
+
+Doğrulama: `curl -I https://www.viarsoft.com/` → `301` ve
+`location: https://viarsoft.com/` dönmelidir.
+
 ## Proje Yapısı
 
 ```
