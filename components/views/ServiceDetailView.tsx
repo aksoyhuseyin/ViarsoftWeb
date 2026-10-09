@@ -1,64 +1,44 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
 import { CTA } from "@/components/CTA";
 import { Icon } from "@/components/Icon";
 import { JsonLd } from "@/components/JsonLd";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
-import { services, serviceBySlug } from "@/lib/data/services";
-import { buildMetadata } from "@/lib/seo/metadata";
+import { getServices, type Service } from "@/lib/data/services";
+import { getDictionary } from "@/lib/dictionary";
 import { serviceSchema } from "@/lib/seo/jsonld";
+import { routes, servicePath, type Locale } from "@/lib/i18n";
 
-// Statik export: yalnızca aşağıdaki slug'lar HTML olarak üretilir.
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return services.map((service) => ({ slug: service.slug }));
-}
-
-export function generateMetadata({
-  params,
+export function ServiceDetailView({
+  locale,
+  service,
 }: {
-  params: { slug: string };
-}): Metadata {
-  const service = serviceBySlug(params.slug);
-  if (!service) return {};
-  return buildMetadata({
-    title: service.seo.title,
-    description: service.seo.description,
-    path: `/hizmetler/${service.slug}/`,
-    keywords: service.seo.keywords,
-  });
-}
-
-export default function ServiceDetailPage({
-  params,
-}: {
-  params: { slug: string };
+  locale: Locale;
+  service: Service;
 }) {
-  const service = serviceBySlug(params.slug);
-  if (!service) notFound();
-
-  const related = services.filter((s) => s.slug !== service.slug).slice(0, 3);
+  const d = getDictionary(locale);
+  const t = d.pages.serviceDetail;
+  const related = getServices(locale)
+    .filter((s) => s.slug !== service.slug)
+    .slice(0, 3);
 
   return (
     <>
-      <JsonLd data={serviceSchema(service)} />
+      <JsonLd data={serviceSchema(service, locale)} />
 
       <PageHeader
-        eyebrow="Hizmet"
+        eyebrow={t.eyebrow}
         title={service.title}
         description={service.intro}
         breadcrumbs={[
-          { name: "Ana Sayfa", path: "/" },
-          { name: "Hizmetler", path: "/hizmetler/" },
-          { name: service.shortTitle, path: `/hizmetler/${service.slug}/` },
+          { name: d.nav.home, path: routes.home[locale] },
+          { name: d.nav.services, path: routes.services[locale] },
+          { name: service.shortTitle, path: servicePath(locale, service.slug) },
         ]}
       >
-        <ButtonLink href="/iletisim/" icon="arrow-right" size="lg">
-          Teklif Alın
+        <ButtonLink href={routes.contact[locale]} icon="arrow-right" size="lg">
+          {t.quote}
         </ButtonLink>
       </PageHeader>
 
@@ -67,7 +47,7 @@ export default function ServiceDetailPage({
         <div className="container">
           <Reveal>
             <h2 className="font-display text-2xl font-bold text-navy-900 sm:text-3xl">
-              Öne Çıkan Yetkinlikler
+              {t.featuresTitle}
             </h2>
           </Reveal>
           <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -96,11 +76,10 @@ export default function ServiceDetailPage({
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center">
             <Reveal>
               <h2 className="font-display text-2xl font-bold text-navy-900 sm:text-3xl">
-                Bu kapsamda neler yapıyoruz?
+                {t.scopeTitle}
               </h2>
               <p className="mt-4 leading-relaxed text-navy-600">
-                {service.shortTitle} alanında, işletmenizin ihtiyaçlarına göre
-                özelleştirilmiş çözümler sunuyoruz. Başlıca çalışma alanlarımız:
+                {t.scopeIntro(service.shortTitle)}
               </p>
               <ul className="mt-6 space-y-3">
                 {service.deliverables.map((item) => (
@@ -120,18 +99,17 @@ export default function ServiceDetailPage({
                 <Icon name={service.icon} className="h-7 w-7" />
               </div>
               <h3 className="mt-5 font-display text-xl font-semibold text-navy-900">
-                Projenize başlamaya hazır mısınız?
+                {t.sideTitle}
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-navy-600">
-                İhtiyacınızı birlikte analiz edelim, size en uygun çözümü ve yol
-                haritasını sunalım. İlk görüşme ve teklif ücretsizdir.
+                {t.sideText}
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/iletisim/" icon="arrow-right">
-                  İletişime Geç
+                <ButtonLink href={routes.contact[locale]} icon="arrow-right">
+                  {t.contact}
                 </ButtonLink>
-                <ButtonLink href="/hizmetler/" variant="ghost">
-                  Tüm Hizmetler
+                <ButtonLink href={routes.services[locale]} variant="ghost">
+                  {t.all}
                 </ButtonLink>
               </div>
             </Reveal>
@@ -144,14 +122,14 @@ export default function ServiceDetailPage({
         <div className="container">
           <Reveal>
             <h2 className="font-display text-2xl font-bold text-navy-900 sm:text-3xl">
-              Diğer Hizmetler
+              {t.related}
             </h2>
           </Reveal>
           <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((s, i) => (
               <Reveal key={s.slug} delay={i * 70}>
                 <Link
-                  href={`/hizmetler/${s.slug}/`}
+                  href={servicePath(locale, s.slug)}
                   className="card-lift group flex h-full items-start gap-4 rounded-2xl border border-navy-100 bg-white p-6 hover:border-accent-200"
                 >
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent-50 text-accent-600 ring-1 ring-inset ring-accent-100 transition-colors duration-300 group-hover:bg-accent-600 group-hover:text-white group-hover:ring-accent-600">
@@ -172,7 +150,7 @@ export default function ServiceDetailPage({
         </div>
       </section>
 
-      <CTA />
+      <CTA locale={locale} />
     </>
   );
 }

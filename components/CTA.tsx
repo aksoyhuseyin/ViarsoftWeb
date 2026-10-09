@@ -1,8 +1,11 @@
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { siteConfig } from "@/lib/site";
+import { getDictionary } from "@/lib/dictionary";
+import { routes, type Locale } from "@/lib/i18n";
 
 interface CTAProps {
+  locale: Locale;
   title?: string;
   description?: string;
   buttonLabel?: string;
@@ -10,10 +13,11 @@ interface CTAProps {
 }
 
 export function CTA({
-  title = "Yazılım Projenizi Birlikte Hayata Geçirelim",
-  description = "İş süreçlerinize değer katacak özel yazılım çözümleri için Viarsoft ile iletişime geçin.",
-  buttonLabel = "İletişime Geç",
-  buttonHref = "/iletisim/",
+  locale,
+  title = getDictionary(locale).cta.title,
+  description = getDictionary(locale).cta.description,
+  buttonLabel = getDictionary(locale).cta.button,
+  buttonHref = routes.contact[locale],
 }: CTAProps) {
   return (
     <section className="bg-white py-24 lg:py-28">

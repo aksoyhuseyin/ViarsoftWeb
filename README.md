@@ -131,6 +131,16 @@ public/
 └── site.webmanifest
 ```
 
+## İki Dil (TR / EN)
+
+- Türkçe sayfalar kökte, mevcut adresleriyle: `app/(tr)/…` (route group, URL'e yansımaz).
+- İngilizce sayfalar `/en/` altında: `app/en/…` (`/en/services/`, `/en/about/` …).
+- Sayfa gövdeleri iki dilde ortak: `components/views/*View.tsx` (`locale` alır).
+- Arayüz metinleri: `lib/dictionary.ts`; yollar, bölüm çapaları ve dil düğmesinin
+  karşılık eşlemesi: `lib/i18n.ts`. Hizmetler diller arası ortak `id` ile eşlenir.
+- Her sayfa `hreflang` (tr-TR / en / x-default) ve kendi canonical'ını taşır.
+- Yeni sayfa eklerken: iki route dosyası + `routes` girdisi + sözlük metinleri.
+
 ## SEO Özellikleri
 
 - **Metadata API** ile her sayfada `title` + `description`

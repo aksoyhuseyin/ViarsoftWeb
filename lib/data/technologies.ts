@@ -1,47 +1,66 @@
+import type { Locale } from "@/lib/i18n";
+
 export interface Technology {
   name: string;
   category: TechCategory;
 }
 
 export type TechCategory =
-  | "Diller"
-  | "Frontend"
-  | "Backend & API"
-  | "Veritabanı"
-  | "DevOps & Cloud";
+  | "languages"
+  | "frontend"
+  | "backend"
+  | "database"
+  | "devops";
 
 export const technologies: Technology[] = [
-  { name: "C#", category: "Diller" },
-  { name: ".NET", category: "Backend & API" },
-  { name: "Java", category: "Diller" },
-  { name: "JavaScript", category: "Diller" },
-  { name: "TypeScript", category: "Diller" },
-  { name: "Python", category: "Diller" },
-  { name: "C++", category: "Diller" },
-  { name: "Delphi", category: "Diller" },
-  { name: "React", category: "Frontend" },
-  { name: "Next.js", category: "Frontend" },
-  { name: "Tailwind CSS", category: "Frontend" },
-  { name: "REST API", category: "Backend & API" },
-  { name: "SQL Server", category: "Veritabanı" },
-  { name: "PostgreSQL", category: "Veritabanı" },
-  { name: "Docker", category: "DevOps & Cloud" },
-  { name: "Cloudflare", category: "DevOps & Cloud" },
+  { name: "C#", category: "languages" },
+  { name: ".NET", category: "backend" },
+  { name: "Java", category: "languages" },
+  { name: "JavaScript", category: "languages" },
+  { name: "TypeScript", category: "languages" },
+  { name: "Python", category: "languages" },
+  { name: "C++", category: "languages" },
+  { name: "Delphi", category: "languages" },
+  { name: "React", category: "frontend" },
+  { name: "Next.js", category: "frontend" },
+  { name: "Tailwind CSS", category: "frontend" },
+  { name: "REST API", category: "backend" },
+  { name: "SQL Server", category: "database" },
+  { name: "PostgreSQL", category: "database" },
+  { name: "Docker", category: "devops" },
+  { name: "Cloudflare", category: "devops" },
 ];
+
+const categoryLabels: Record<Locale, Record<TechCategory, string>> = {
+  tr: {
+    languages: "Diller",
+    frontend: "Frontend",
+    backend: "Backend & API",
+    database: "Veritabanı",
+    devops: "DevOps & Cloud",
+  },
+  en: {
+    languages: "Languages",
+    frontend: "Frontend",
+    backend: "Backend & API",
+    database: "Databases",
+    devops: "DevOps & Cloud",
+  },
+};
 
 export const techCategories: TechCategory[] = [
-  "Diller",
-  "Frontend",
-  "Backend & API",
-  "Veritabanı",
-  "DevOps & Cloud",
+  "languages",
+  "frontend",
+  "backend",
+  "database",
+  "devops",
 ];
 
-/** Kategoriye göre gruplanmış teknolojiler */
-export const technologiesByCategory = (): Record<TechCategory, Technology[]> => {
-  const grouped = {} as Record<TechCategory, Technology[]>;
-  for (const cat of techCategories) {
-    grouped[cat] = technologies.filter((t) => t.category === cat);
-  }
-  return grouped;
-};
+/** Kategoriye göre gruplanmış teknolojiler (etiket dile göre) */
+export const technologiesByCategory = (
+  locale: Locale
+): { label: string; techs: Technology[] }[] =>
+  techCategories.map((cat) => ({
+    label: categoryLabels[locale][cat],
+    techs: technologies.filter((t) => t.category === cat),
+  }));

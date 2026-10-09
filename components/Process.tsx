@@ -2,16 +2,19 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { processSteps } from "@/lib/data/content";
+import { getDictionary } from "@/lib/dictionary";
+import { sectionIds, type Locale } from "@/lib/i18n";
 
-export function Process() {
+export function Process({ locale }: { locale: Locale }) {
+  const t = getDictionary(locale).sections.process;
   return (
-    <section id="surec" className="scroll-mt-24 bg-white py-24 lg:py-32">
+    <section id={sectionIds.process[locale]} className="scroll-mt-24 bg-white py-24 lg:py-32">
       <div className="container">
         <Reveal>
           <SectionHeading
-            eyebrow="Süreç"
-            title="Şeffaf ve öngörülebilir"
-            description="Her projeyi net adımlarla yönetir, her aşamada bilgilendiririz."
+            eyebrow={t.eyebrow}
+            title={t.title}
+            description={t.description}
           />
         </Reveal>
 
@@ -23,7 +26,7 @@ export function Process() {
           />
 
           <ol className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
-            {processSteps.map((step, i) => (
+            {processSteps[locale].map((step, i) => (
               <Reveal
                 as="li"
                 key={step.step}

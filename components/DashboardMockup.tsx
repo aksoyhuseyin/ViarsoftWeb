@@ -1,10 +1,13 @@
 import { Icon } from "@/components/Icon";
+import { getDictionary } from "@/lib/dictionary";
+import type { Locale } from "@/lib/i18n";
 
 /**
  * Sade, açık temalı ürün/panel kartı — CSS ile üretilmiştir.
  * Havadar minimal his için tek katman, az efekt.
  */
-export function DashboardMockup() {
+export function DashboardMockup({ locale }: { locale: Locale }) {
+  const t = getDictionary(locale).mockup;
   const bars = [46, 62, 52, 74, 68, 88, 80];
 
   return (
@@ -28,18 +31,14 @@ export function DashboardMockup() {
           </div>
           <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-50 px-2.5 py-1 text-[11px] font-semibold text-accent-700">
             <span className="h-1.5 w-1.5 rounded-full bg-accent-500" />
-            Canlı
+            {t.live}
           </span>
         </div>
 
         <div className="space-y-5 p-5">
           {/* KPI kartları */}
           <div className="grid grid-cols-3 gap-3">
-            {[
-              { label: "Aktif Sipariş", value: "1.284" },
-              { label: "Stok Kalemi", value: "8.640" },
-              { label: "Gelir", value: "₺2.1M" },
-            ].map((kpi) => (
+            {t.kpis.map((kpi) => (
               <div
                 key={kpi.label}
                 className="rounded-xl border border-navy-100 bg-navy-50/50 p-3"
@@ -56,7 +55,7 @@ export function DashboardMockup() {
           <div className="rounded-xl border border-navy-100 p-4">
             <div className="mb-4 flex items-center justify-between">
               <span className="text-xs font-semibold text-navy-700">
-                Haftalık Performans
+                {t.weekly}
               </span>
               <span className="text-xs font-semibold text-accent-600">+18%</span>
             </div>

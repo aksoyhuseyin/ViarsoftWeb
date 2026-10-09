@@ -1,10 +1,11 @@
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/Icon";
 import { DashboardMockup } from "@/components/DashboardMockup";
+import { getDictionary } from "@/lib/dictionary";
+import { routes, sectionIds, type Locale } from "@/lib/i18n";
 
-const trust = ["İhtiyaca özel", "Uzun vadeli destek", "Güvenli mimari"];
-
-export function Hero() {
+export function Hero({ locale }: { locale: Locale }) {
+  const t = getDictionary(locale).hero;
   return (
     <section className="relative overflow-hidden bg-white">
       {/* Katmanlı gradyan mesh + ince nokta dokusu (derinlik) */}
@@ -18,30 +19,30 @@ export function Hero() {
         <div className="grid items-center gap-16 lg:grid-cols-[1.05fr_0.95fr]">
           {/* Sol: metin */}
           <div className="animate-fade-up">
-            <span className="badge">Kurumsal Yazılım Çözümleri</span>
+            <span className="badge">{t.badge}</span>
 
             <h1 className="mt-6 font-display text-[2.75rem] font-bold leading-[1.04] tracking-tight text-navy-900 sm:text-6xl lg:text-[4rem]">
-              Modern ve <span className="text-gradient">güvenilir</span>{" "}
-              yazılım çözümleri
+              {t.titleBefore}
+              <span className="text-gradient">{t.titleAccent}</span>
+              {t.titleAfter}
             </h1>
 
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-navy-600">
-              İşletmenize özel web, mobil ve entegrasyon çözümleri geliştiriyoruz —
-              ölçeklenebilir, güvenli ve uzun ömürlü.
+              {t.text}
             </p>
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/iletisim/" size="lg" icon="arrow-right">
-                Projenizi Konuşalım
+              <ButtonLink href={routes.contact[locale]} size="lg" icon="arrow-right">
+                {t.primary}
               </ButtonLink>
-              <ButtonLink href="/hizmetler/" size="lg" variant="ghost">
-                Hizmetlerimiz
+              <ButtonLink href={`#${sectionIds.products[locale]}`} size="lg" variant="ghost">
+                {t.secondary}
               </ButtonLink>
             </div>
 
             {/* Sade güven satırı */}
             <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3">
-              {trust.map((item) => (
+              {t.trust.map((item) => (
                 <div
                   key={item}
                   className="flex items-center gap-2 text-sm font-medium text-navy-500"
@@ -61,7 +62,7 @@ export function Hero() {
                 aria-hidden="true"
               />
               <div className="relative animate-float motion-reduce:animate-none">
-                <DashboardMockup />
+                <DashboardMockup locale={locale} />
               </div>
             </div>
           </div>

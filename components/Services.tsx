@@ -3,21 +3,24 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { homeServiceCards } from "@/lib/data/services";
+import { getDictionary } from "@/lib/dictionary";
+import { sectionIds, servicePath, type Locale } from "@/lib/i18n";
 
-export function Services() {
+export function Services({ locale }: { locale: Locale }) {
+  const t = getDictionary(locale).sections.services;
   return (
-    <section id="hizmetler" className="scroll-mt-24 bg-white py-24 lg:py-32">
+    <section id={sectionIds.services[locale]} className="scroll-mt-24 bg-white py-24 lg:py-32">
       <div className="container">
         <Reveal>
           <SectionHeading
-            eyebrow="Hizmetler"
-            title="Uçtan uca yazılım hizmetleri"
-            description="Fikirden canlıya, tüm yazılım ihtiyaçlarınızda yanınızdayız."
+            eyebrow={t.eyebrow}
+            title={t.title}
+            description={t.description}
           />
         </Reveal>
 
         <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {homeServiceCards.map((service, i) => (
+          {homeServiceCards(locale, servicePath).map((service, i) => (
             <Reveal key={service.title} delay={i * 70}>
               <Link
                 href={service.href}
@@ -33,7 +36,7 @@ export function Services() {
                   {service.excerpt}
                 </p>
                 <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-600 transition-all duration-300 group-hover:gap-2.5">
-                  Detaylı bilgi
+                  {t.more}
                   <Icon name="arrow-right" className="h-4 w-4" />
                 </span>
               </Link>

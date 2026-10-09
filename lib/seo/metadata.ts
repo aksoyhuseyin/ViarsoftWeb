@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site";
+import { getDictionary } from "@/lib/dictionary";
+import type { Locale } from "@/lib/i18n";
+
+const ogLocale: Record<Locale, string> = { tr: "tr_TR", en: "en_US" };
 
 /** path'i mutlak URL'e çevirir. trailingSlash: true ile uyumlu. */
 export function absoluteUrl(path = "/"): string {
@@ -21,6 +25,9 @@ interface BuildMetadataArgs {
   noIndex?: boolean;
   /** Marka son ekini bastırıp tam başlığı kullan */
   absoluteTitle?: string;
+  locale?: Locale;
+  /** Sayfanın iki dildeki yolları → hreflang bağlantıları */
+  languages?: Record<Locale, string>;
 }
 
 /**
@@ -35,10 +42,13 @@ export function buildMetadata({
   ogType = "website",
   noIndex = false,
   absoluteTitle,
+  locale = "tr",
+  languages,
 }: BuildMetadataArgs): Metadata {
   const url = absoluteUrl(path);
   const ogImage = `${siteConfig.url}${siteConfig.ogImage}`;
-  const metaTitle = absoluteTitle ?? title ?? siteConfig.slogan;
+  const slogan = getDictionary(locale).site.slogan;
+  const metaTitle = absoluteTitle ?? title ?? slogan;
 
   return {
     title: absoluteTitle ? { absolute: absoluteTitle } : title,
@@ -46,10 +56,17 @@ export function buildMetadata({
     keywords,
     alternates: {
       canonical: url,
+      ...(languages && {
+        languages: {
+          "tr-TR": absoluteUrl(languages.tr),
+          en: absoluteUrl(languages.en),
+          "x-default": absoluteUrl(languages.tr),
+        },
+      }),
     },
     openGraph: {
       type: ogType,
-      locale: siteConfig.locale,
+      locale: ogLocale[locale],
       url,
       siteName: siteConfig.name,
       title: metaTitle,
@@ -59,7 +76,7 @@ export function buildMetadata({
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: `${siteConfig.name} — ${siteConfig.slogan}`,
+          alt: `${siteConfig.name} — ${slogan}`,
         },
       ],
     },
@@ -83,4 +100,21 @@ export function buildMetadata({
           },
         },
   };
+}
+
+/** Sözlükteki sayfa başlık/açıklamalarıyla, iki dilli sayfa metadata'sı */
+export function pageMetadata(
+  page: "services" | "technologies" | "about" | "contact" | "blog",
+  locale: Locale,
+  languages: Record<Locale, string>
+): Metadata {
+  const p = getDictionary(locale).pages[page];
+  return buildMetadata({
+    title: p.metaTitle,
+    description: p.metaDescription,
+    path: languages[locale],
+    keywords: p.keywords,
+    locale,
+    languages,
+  });
 }

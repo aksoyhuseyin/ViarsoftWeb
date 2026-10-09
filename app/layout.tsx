@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
 import { siteConfig } from "@/lib/site";
 import { organizationSchema, websiteSchema } from "@/lib/seo/jsonld";
@@ -39,6 +37,8 @@ export const metadata: Metadata = {
     "api entegrasyonu",
     "yazılım danışmanlığı",
     "Viarsoft",
+    "KoçPro",
+    "Exper Cebimde",
   ],
   category: "technology",
   alternates: {
@@ -96,8 +96,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang={siteConfig.lang} className={`${inter.variable} ${manrope.variable}`}>
+    <html
+      lang={siteConfig.lang}
+      className={`${inter.variable} ${manrope.variable}`}
+      suppressHydrationWarning
+    >
       <head>
+        {/* Tek kök layout: İngilizce sayfalarda belge dilini boyamadan önce düzelt */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if(/^\/en(\/|$)/.test(location.pathname))document.documentElement.lang="en"`,
+          }}
+        />
         {/* JS kapalıyken scroll-reveal öğeleri gizli kalmasın */}
         <noscript>
           <style>{`.reveal{opacity:1 !important;transform:none !important;}`}</style>
@@ -106,15 +116,8 @@ export default function RootLayout({
       <body className="min-h-screen font-sans">
         {/* Site geneli yapısal veri: Organization + WebSite */}
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-navy-900 focus:px-4 focus:py-2 focus:text-white"
-        >
-          İçeriğe geç
-        </a>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
+        {/* Header/Footer dil bazlı layout'larda: app/(tr)/layout.tsx, app/en/layout.tsx */}
+        {children}
       </body>
     </html>
   );

@@ -8,15 +8,19 @@ import Link from "next/link";
 export function Logo({
   variant = "dark",
   className = "",
+  href = "/",
+  label = "Viarsoft ana sayfa",
 }: {
   variant?: "dark" | "light";
   className?: string;
+  href?: string;
+  label?: string;
 }) {
   const textColor = variant === "light" ? "text-white" : "text-navy-900";
   return (
     <Link
-      href="/"
-      aria-label="Viarsoft ana sayfa"
+      href={href}
+      aria-label={label}
       className={`group inline-flex items-center gap-2.5 ${className}`}
     >
       <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent-600 transition-colors duration-200 group-hover:bg-accent-700">

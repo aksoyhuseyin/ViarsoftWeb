@@ -2,34 +2,55 @@ import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { Icon } from "@/components/Icon";
 import { siteConfig } from "@/lib/site";
-import { services } from "@/lib/data/services";
+import { getServices } from "@/lib/data/services";
 import { footerCorporate } from "@/lib/data/nav";
 import { technologies } from "@/lib/data/technologies";
+import { products } from "@/lib/data/products";
+import { getDictionary } from "@/lib/dictionary";
+import { routes, servicePath, type Locale } from "@/lib/i18n";
 
-export function Footer() {
+export function Footer({ locale }: { locale: Locale }) {
   const year = 2026; // Statik export: build zamanında sabit tutulur
+  const t = getDictionary(locale);
+  const founded = locale === "en" ? siteConfig.founded.labelEn : siteConfig.founded.label;
   return (
     <footer className="border-t border-navy-800 bg-navy-950 text-navy-200">
       <div className="container py-14">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-12">
           {/* Marka + açıklama */}
           <div className="lg:col-span-4">
-            <Logo variant="light" />
+            <Logo variant="light" href={routes.home[locale]} label={t.logoLabel} />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-navy-300">
-              Viarsoft; işletmelere özel web, masaüstü, mobil ve entegrasyon
-              çözümleri geliştiren kurumsal bir yazılım firmasıdır.
-              Sürdürülebilir, ölçeklenebilir ve güvenli yazılımlar üretiyoruz.
+              {t.footer.about}
             </p>
+            <p className="mt-6 text-xs font-semibold uppercase tracking-wider text-navy-400">
+              {t.footer.products}
+            </p>
+            <ul className="mt-3 space-y-2 text-sm">
+              {products.map((p) => (
+                <li key={p.slug}>
+                  <a
+                    href={p.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-navy-300 transition-colors hover:text-accent-400"
+                  >
+                    {p.name}
+                    <span className="text-navy-500"> — {p.url.replace("https://", "")}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Hizmetler */}
           <div className="lg:col-span-3">
-            <FooterHeading>Hizmetler</FooterHeading>
+            <FooterHeading>{t.footer.services}</FooterHeading>
             <ul className="mt-4 space-y-2.5 text-sm">
-              {services.map((s) => (
+              {getServices(locale).map((s) => (
                 <li key={s.slug}>
                   <Link
-                    href={`/hizmetler/${s.slug}/`}
+                    href={servicePath(locale, s.slug)}
                     className="text-navy-300 transition-colors hover:text-accent-400"
                   >
                     {s.shortTitle}
@@ -41,9 +62,9 @@ export function Footer() {
 
           {/* Kurumsal */}
           <div className="lg:col-span-2">
-            <FooterHeading>Kurumsal</FooterHeading>
+            <FooterHeading>{t.footer.corporate}</FooterHeading>
             <ul className="mt-4 space-y-2.5 text-sm">
-              {footerCorporate.map((item) => (
+              {footerCorporate(locale).map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
@@ -58,7 +79,7 @@ export function Footer() {
 
           {/* İletişim */}
           <div className="lg:col-span-3">
-            <FooterHeading>İletişim</FooterHeading>
+            <FooterHeading>{t.footer.contact}</FooterHeading>
             <ul className="mt-4 space-y-3 text-sm">
               <li className="flex items-start gap-3">
                 <Icon name="mail" className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" />
@@ -75,6 +96,7 @@ export function Footer() {
                   {siteConfig.contact.address.street}
                   <br />
                   {siteConfig.contact.address.district}/{siteConfig.contact.address.city}
+                  {locale === "en" && ", Türkiye"}
                 </span>
               </li>
             </ul>
@@ -84,15 +106,15 @@ export function Footer() {
         {/* Teknoloji rozetleri */}
         <div className="mt-12 border-t border-navy-800 pt-8">
           <p className="text-xs font-semibold uppercase tracking-wider text-navy-400">
-            Teknolojiler
+            {t.footer.technologies}
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
-            {technologies.map((t) => (
+            {technologies.map((tech) => (
               <span
-                key={t.name}
+                key={tech.name}
                 className="rounded-lg border border-navy-800 bg-navy-900/60 px-2.5 py-1 text-xs font-medium text-navy-300"
               >
-                {t.name}
+                {tech.name}
               </span>
             ))}
           </div>
@@ -100,9 +122,15 @@ export function Footer() {
 
         {/* Telif */}
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-navy-800 pt-6 text-sm text-navy-400 sm:flex-row">
-          <p>© {year} {siteConfig.legalName}. Tüm hakları saklıdır.</p>
+          <div className="text-center sm:text-left">
+            <p>© {year} {siteConfig.legalName}. {t.footer.rights}</p>
+            <p className="mt-1 text-xs text-navy-500">
+              {t.footer.founded}: {founded} · {t.footer.mersis}: {siteConfig.legal.mersisNumber} ·{" "}
+              {t.footer.tax(siteConfig.legal.taxOffice, siteConfig.legal.taxNumber)}
+            </p>
+          </div>
           <p className="text-navy-500">
-            {siteConfig.slogan}
+            {t.site.slogan}
           </p>
         </div>
       </div>

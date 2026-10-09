@@ -1,52 +1,51 @@
-import type { Metadata } from "next";
 import { PageHeader } from "@/components/PageHeader";
 import { ContactForm } from "@/components/ContactForm";
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { siteConfig } from "@/lib/site";
-import { buildMetadata } from "@/lib/seo/metadata";
+import { getDictionary } from "@/lib/dictionary";
+import { routes, type Locale } from "@/lib/i18n";
 
-export const metadata: Metadata = buildMetadata({
-  title: "İletişim",
-  description:
-    "Viarsoft ile iletişime geçin. Özel yazılım, web, mobil ve entegrasyon projeleriniz için ücretsiz görüşme ve teklif alın.",
-  path: "/iletisim/",
-  keywords: ["Viarsoft iletişim", "yazılım teklifi", "yazılım firması iletişim"],
-});
+export function ContactView({ locale }: { locale: Locale }) {
+  const d = getDictionary(locale);
+  const t = d.pages.contact;
+  const f = d.facts;
+  const founded = locale === "en" ? siteConfig.founded.labelEn : siteConfig.founded.label;
 
-const contactCards = [
-  {
-    icon: "mail" as const,
-    label: "E-posta",
-    value: siteConfig.contact.email,
-    href: `mailto:${siteConfig.contact.email}`,
-  },
-  {
-    icon: "map-pin" as const,
-    label: "Adres",
-    value: siteConfig.contact.address.full,
-    href: undefined,
-  },
-];
+  const contactCards = [
+    {
+      icon: "mail" as const,
+      label: t.email,
+      value: siteConfig.contact.email,
+      href: `mailto:${siteConfig.contact.email}`,
+    },
+    {
+      icon: "map-pin" as const,
+      label: t.address,
+      value: `${siteConfig.contact.address.full}${locale === "en" ? ", Türkiye" : ""}`,
+      href: undefined,
+    },
+  ];
 
-const companyInfo = [
-  { label: "Ünvan", value: siteConfig.legalName },
-  {
-    label: "Vergi Dairesi / No",
-    value: `${siteConfig.legal.taxOffice} / ${siteConfig.legal.taxNumber}`,
-  },
-];
+  const companyInfo = [
+    { label: f.legalName, value: siteConfig.legalName },
+    { label: f.founded, value: f.foundedValue(founded) },
+    { label: f.mersis, value: siteConfig.legal.mersisNumber },
+    {
+      label: f.tax,
+      value: f.taxValue(siteConfig.legal.taxOffice, siteConfig.legal.taxNumber),
+    },
+  ];
 
-export default function IletisimPage() {
   return (
     <>
       <PageHeader
-        eyebrow="İletişim"
-        title="Projenizi Konuşalım"
-        description="İhtiyacınızı anlatın, size en uygun çözümü ve yol haritasını birlikte belirleyelim. İlk görüşme ve teklif ücretsizdir."
+        eyebrow={t.eyebrow}
+        title={t.title}
+        description={t.description}
         breadcrumbs={[
-          { name: "Ana Sayfa", path: "/" },
-          { name: "İletişim", path: "/iletisim/" },
+          { name: d.nav.home, path: routes.home[locale] },
+          { name: d.nav.contact, path: routes.contact[locale] },
         ]}
       />
 
@@ -56,11 +55,9 @@ export default function IletisimPage() {
             {/* Sol: iletişim bilgileri */}
             <Reveal className="lg:col-span-2">
               <h2 className="font-display text-2xl font-bold text-navy-900">
-                İletişim Bilgileri
+                {t.infoTitle}
               </h2>
-              <p className="mt-3 text-navy-600">
-                Aşağıdaki kanallardan bize ulaşabilir veya formu doldurabilirsiniz.
-              </p>
+              <p className="mt-3 text-navy-600">{t.infoText}</p>
 
               <div className="mt-8 space-y-4">
                 {contactCards.map((card) => {
@@ -92,7 +89,7 @@ export default function IletisimPage() {
               {/* Şirket bilgileri */}
               <div className="mt-10 rounded-2xl border border-navy-100 bg-navy-50/40 p-5">
                 <h3 className="text-xs font-semibold uppercase tracking-wide text-navy-400">
-                  Şirket Bilgileri
+                  {t.companyTitle}
                 </h3>
                 <dl className="mt-3 space-y-2 text-sm">
                   {companyInfo.map((item) => (
@@ -109,13 +106,11 @@ export default function IletisimPage() {
             <Reveal delay={120} className="lg:col-span-3">
               <div className="rounded-3xl border border-navy-100 bg-white p-6 shadow-lift sm:p-8">
                 <h2 className="font-display text-2xl font-bold text-navy-900">
-                  Bize Yazın
+                  {t.formTitle}
                 </h2>
-                <p className="mt-2 text-sm text-navy-600">
-                  Formu doldurun, en kısa sürede size dönüş yapalım.
-                </p>
+                <p className="mt-2 text-sm text-navy-600">{t.formText}</p>
                 <div className="mt-6">
-                  <ContactForm />
+                  <ContactForm locale={locale} />
                 </div>
               </div>
             </Reveal>

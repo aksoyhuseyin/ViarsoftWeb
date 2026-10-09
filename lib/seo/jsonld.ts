@@ -1,6 +1,8 @@
 import { siteConfig } from "@/lib/site";
 import { absoluteUrl } from "@/lib/seo/metadata";
 import type { Service } from "@/lib/data/services";
+import type { Product } from "@/lib/data/products";
+import { servicePath, type Locale } from "@/lib/i18n";
 
 /**
  * JSON-LD yapısal veri üreticileri.
@@ -19,7 +21,13 @@ export function organizationSchema() {
     image: `${siteConfig.url}${siteConfig.ogImage}`,
     description: siteConfig.description,
     email: siteConfig.contact.email,
+    foundingDate: siteConfig.founded.iso,
     taxID: siteConfig.legal.taxNumber,
+    identifier: {
+      "@type": "PropertyValue",
+      propertyID: "MERSIS",
+      value: siteConfig.legal.mersisNumber,
+    },
     address: {
       "@type": "PostalAddress",
       streetAddress: siteConfig.contact.address.street,
@@ -44,7 +52,7 @@ export function websiteSchema() {
     url: siteConfig.url,
     name: siteConfig.name,
     description: siteConfig.description,
-    inLanguage: siteConfig.lang,
+    inLanguage: ["tr-TR", "en"],
     publisher: {
       "@id": `${siteConfig.url}/#organization`,
     },
@@ -70,13 +78,13 @@ export function breadcrumbSchema(items: BreadcrumbItem[]) {
   };
 }
 
-export function serviceSchema(service: Service) {
+export function serviceSchema(service: Service, locale: Locale) {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
     name: service.title,
     serviceType: service.shortTitle,
-    url: absoluteUrl(`/hizmetler/${service.slug}/`),
+    url: absoluteUrl(servicePath(locale, service.slug)),
     description: service.seo.description,
     provider: {
       "@id": `${siteConfig.url}/#organization`,
@@ -84,6 +92,22 @@ export function serviceSchema(service: Service) {
     areaServed: {
       "@type": "Country",
       name: "Türkiye",
+    },
+  };
+}
+
+export function productSchema(product: Product, locale: Locale) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: product.name,
+    url: product.url,
+    description: product.description[locale],
+    applicationCategory: product.schema.applicationCategory,
+    operatingSystem: product.schema.operatingSystem,
+    image: `${siteConfig.url}${product.logo}`,
+    publisher: {
+      "@id": `${siteConfig.url}/#organization`,
     },
   };
 }

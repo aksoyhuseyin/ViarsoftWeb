@@ -1,68 +1,35 @@
-import type { Metadata } from "next";
 import { PageHeader } from "@/components/PageHeader";
 import { CTA } from "@/components/CTA";
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { technologiesByCategory } from "@/lib/data/technologies";
-import { buildMetadata } from "@/lib/seo/metadata";
+import { getDictionary } from "@/lib/dictionary";
+import { routes, type Locale } from "@/lib/i18n";
 
-export const metadata: Metadata = buildMetadata({
-  title: "Teknolojiler",
-  description:
-    "Viarsoft'un kullandığı teknolojiler: C#, .NET, Java, JavaScript, TypeScript, React, Next.js, Python, C++, Delphi, SQL Server, PostgreSQL, Docker ve daha fazlası.",
-  path: "/teknolojiler/",
-  keywords: [
-    "yazılım teknolojileri",
-    ".net geliştirme",
-    "react next.js",
-    "sql server postgresql",
-    "docker",
-  ],
-});
-
-const highlights = [
-  {
-    icon: "bolt" as const,
-    title: "Performans",
-    description:
-      "Doğru teknoloji seçimiyle hızlı, ölçeklenebilir ve verimli sistemler kurarız.",
-  },
-  {
-    icon: "shield" as const,
-    title: "Güvenlik",
-    description:
-      "Güvenli kodlama pratikleri ve güncel araçlarla veri güvenliğini önceliklendiririz.",
-  },
-  {
-    icon: "refresh" as const,
-    title: "Sürdürülebilirlik",
-    description:
-      "Uzun ömürlü, bakımı kolay ve topluluk desteği güçlü teknolojileri tercih ederiz.",
-  },
-];
-
-export default function TeknolojilerPage() {
-  const grouped = technologiesByCategory();
+export function TechnologiesView({ locale }: { locale: Locale }) {
+  const d = getDictionary(locale);
+  const t = d.pages.technologies;
+  const grouped = technologiesByCategory(locale);
 
   return (
     <>
       <PageHeader
-        eyebrow="Teknolojiler"
-        title="Kullandığımız Teknolojiler"
-        description="Her projede ihtiyaca en uygun, kanıtlanmış ve güncel teknolojileri seçiyoruz. Modern araçlarla performanslı ve güvenli çözümler üretiyoruz."
+        eyebrow={t.eyebrow}
+        title={t.title}
+        description={t.description}
         breadcrumbs={[
-          { name: "Ana Sayfa", path: "/" },
-          { name: "Teknolojiler", path: "/teknolojiler/" },
+          { name: d.nav.home, path: routes.home[locale] },
+          { name: d.nav.technologies, path: routes.technologies[locale] },
         ]}
       />
 
       <section className="bg-white py-20 lg:py-28">
         <div className="container space-y-6">
-          {Object.entries(grouped).map(([category, techs], i) => (
-            <Reveal key={category} delay={i * 60}>
+          {grouped.map(({ label, techs }, i) => (
+            <Reveal key={label} delay={i * 60}>
               <div className="card-lift grid items-center gap-4 rounded-2xl border border-navy-100 bg-white p-6 sm:grid-cols-[200px_1fr] lg:p-8">
                 <h2 className="font-display text-sm font-semibold text-navy-900">
-                  {category}
+                  {label}
                 </h2>
                 <div className="flex flex-wrap gap-2.5">
                   {techs.map((tech) => (
@@ -84,7 +51,7 @@ export default function TeknolojilerPage() {
       <section className="border-t border-navy-100 bg-navy-50/50 py-20 lg:py-24">
         <div className="container">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {highlights.map((h, i) => (
+            {t.highlights.map((h, i) => (
               <Reveal key={h.title} delay={i * 70}>
                 <div className="card-lift h-full rounded-2xl border border-navy-100 bg-white p-7 hover:border-accent-200">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-50 text-accent-600 ring-1 ring-inset ring-accent-100">
@@ -103,7 +70,7 @@ export default function TeknolojilerPage() {
         </div>
       </section>
 
-      <CTA />
+      <CTA locale={locale} />
     </>
   );
 }
