@@ -20,6 +20,12 @@ export function ContactView({ locale }: { locale: Locale }) {
       href: `mailto:${siteConfig.contact.email}`,
     },
     {
+      icon: "phone" as const,
+      label: t.phone,
+      value: siteConfig.contact.phone,
+      href: siteConfig.contact.phoneHref,
+    },
+    {
       icon: "map-pin" as const,
       label: t.address,
       value: `${siteConfig.contact.address.full}${locale === "en" ? ", Türkiye" : ""}`,

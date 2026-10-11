@@ -105,6 +105,7 @@ const tr = {
     tax: "Vergi dairesi / No",
     taxValue: (office: string, no: string) => `${office} / ${no}`,
     email: "E-posta",
+    phone: "Telefon",
     websites: "Web siteleri",
   },
   pages: {
@@ -228,6 +229,7 @@ const tr = {
       infoTitle: "İletişim Bilgileri",
       infoText: "Aşağıdaki kanallardan bize ulaşabilir veya formu doldurabilirsiniz.",
       email: "E-posta",
+      phone: "Telefon",
       address: "Adres",
       companyTitle: "Şirket Bilgileri",
       formTitle: "Bize Yazın",
@@ -390,6 +392,7 @@ const en: Dictionary = {
     tax: "Tax ID",
     taxValue: (office: string, no: string) => `${no} (${office} Tax Office)`,
     email: "Email",
+    phone: "Phone",
     websites: "Websites",
   },
   pages: {
@@ -513,6 +516,7 @@ const en: Dictionary = {
       infoTitle: "Contact Details",
       infoText: "Reach us through the channels below or fill in the form.",
       email: "Email",
+      phone: "Phone",
       address: "Address",
       companyTitle: "Company Information",
       formTitle: "Write to Us",

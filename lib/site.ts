@@ -15,8 +15,11 @@ export const siteConfig = {
   // OpenGraph / Twitter için sosyal görsel (public/og.png olarak eklenmeli).
   ogImage: "/og.png",
   contact: {
-    // Telefon/sosyal medya netleşince eklenecek (bkz. viarsoft-todo).
+    // Sosyal medya netleşince eklenecek (bkz. viarsoft-todo).
     email: "info@viarsoft.com",
+    // Meta işletme doğrulaması: site, vergi levhası ve Meta formu aynı bilgiyi göstermeli.
+    phone: "+90 553 880 02 28",
+    phoneHref: "tel:+905538800228",
     address: {
       street: "Bahçelievler Mah. Hamdi Paşa Sk. No:2/10",
       district: "İlkadım",

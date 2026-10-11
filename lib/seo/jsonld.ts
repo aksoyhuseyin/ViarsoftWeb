@@ -21,6 +21,7 @@ export function organizationSchema() {
     image: `${siteConfig.url}${siteConfig.ogImage}`,
     description: siteConfig.description,
     email: siteConfig.contact.email,
+    telephone: siteConfig.contact.phone,
     foundingDate: siteConfig.founded.iso,
     taxID: siteConfig.legal.taxNumber,
     identifier: {
@@ -39,6 +40,7 @@ export function organizationSchema() {
       "@type": "ContactPoint",
       contactType: "customer support",
       email: siteConfig.contact.email,
+      telephone: siteConfig.contact.phone,
       availableLanguage: ["Turkish", "English"],
     },
   };

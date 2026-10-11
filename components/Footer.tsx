@@ -91,6 +91,15 @@ export function Footer({ locale }: { locale: Locale }) {
                 </a>
               </li>
               <li className="flex items-start gap-3">
+                <Icon name="phone" className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" />
+                <a
+                  href={siteConfig.contact.phoneHref}
+                  className="text-navy-300 transition-colors hover:text-accent-400"
+                >
+                  {siteConfig.contact.phone}
+                </a>
+              </li>
+              <li className="flex items-start gap-3">
                 <Icon name="map-pin" className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" />
                 <span className="text-navy-300">
                   {siteConfig.contact.address.street}

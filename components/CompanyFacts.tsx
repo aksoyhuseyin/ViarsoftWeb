@@ -28,6 +28,14 @@ export function CompanyFacts({ locale }: { locale: Locale }) {
       ),
     },
     {
+      label: t.phone,
+      value: (
+        <a href={siteConfig.contact.phoneHref} className="text-accent-600 hover:underline">
+          {siteConfig.contact.phone}
+        </a>
+      ),
+    },
+    {
       label: t.websites,
       value: (
         <span className="flex flex-wrap gap-x-3 gap-y-1">
