@@ -21,10 +21,10 @@ export const siteConfig = {
     phone: "+90 553 880 02 28",
     phoneHref: "tel:+905538800228",
     address: {
-      street: "Bahçelievler Mah. Hamdi Paşa Sk. No:2/10",
+      street: "Bahçelievler Mah. Hamdi Paşa Sk. Öncü Apartmanı No:2 İç Kapı No:10",
       district: "İlkadım",
       city: "Samsun",
-      full: "Bahçelievler Mah. Hamdi Paşa Sk. No:2/10 İlkadım/Samsun",
+      full: "Bahçelievler Mah. Hamdi Paşa Sk. Öncü Apartmanı No:2 İç Kapı No:10 İlkadım/Samsun",
     },
   },
   // Kuruluş: ticaret siciline tescil ayı (Temmuz 2026).
