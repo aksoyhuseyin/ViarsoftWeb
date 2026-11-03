@@ -164,7 +164,7 @@ export const products: Product[] = [
     links: [
       { label: { tr: "Web sitesi", en: "Website" }, href: "https://expercebimde.com" },
       {
-        label: { tr: "Web uygulaması", en: "Web app" },
+        label: { tr: "Eksper paneli", en: "Inspector panel" },
         href: "https://app.expercebimde.com",
       },
     ],
