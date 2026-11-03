@@ -142,6 +142,10 @@ export function Footer({ locale }: { locale: Locale }) {
             {t.site.slogan}
           </p>
         </div>
+        {/* Mağaza rozetlerinin kullanım şartı (kredi satırı). */}
+        <p className="mt-4 text-center text-[11px] leading-relaxed text-navy-500 sm:text-left">
+          {t.footer.storeNotice}
+        </p>
       </div>
     </footer>
   );

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/ui/Reveal";
-import { products } from "@/lib/data/products";
+import { products, storeBadges } from "@/lib/data/products";
 import { getDictionary } from "@/lib/dictionary";
 import { sectionIds, type Locale } from "@/lib/i18n";
 
@@ -61,23 +61,48 @@ export function Products({ locale }: { locale: Locale }) {
                   ))}
                 </ul>
 
-                <div className="mt-7 flex flex-wrap gap-2">
-                  {product.links.map((link, li) => (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold transition-colors ${
-                        li === 0
-                          ? "bg-accent-600 text-white hover:bg-accent-700"
-                          : "border border-navy-200 bg-white text-navy-800 hover:border-navy-300 hover:bg-navy-50"
-                      }`}
-                    >
-                      {link.label[locale]}
-                      {li === 0 && <Icon name="arrow-right" className="h-4 w-4" />}
-                    </a>
-                  ))}
+                <div className="mt-7 border-t border-navy-100 pt-6">
+                  {/* gap-3 = 12px: Apple'ın ¼ yükseklik boşluk kuralı (h-10 için 10px). */}
+                  <div className="flex flex-wrap gap-3">
+                    {storeBadges.map((store) => {
+                      const image = store.image[locale];
+                      return (
+                        <a
+                          key={store.id}
+                          href={product.stores[store.id]}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-lg transition-opacity hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2"
+                        >
+                          <Image
+                            src={image.src}
+                            alt={`${product.name}: ${store.label[locale]}`}
+                            width={image.width}
+                            height={image.height}
+                            className="h-10 w-auto"
+                          />
+                        </a>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+                    {product.links.map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-1.5 text-sm font-semibold text-accent-600 transition-colors hover:text-accent-700"
+                      >
+                        {link.label[locale]}
+                        <Icon
+                          name="arrow-right"
+                          className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                        />
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </article>
             </Reveal>

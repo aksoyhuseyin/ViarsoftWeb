@@ -36,6 +36,8 @@ const tr = {
     contact: "İletişim",
     technologies: "Teknolojiler",
     rights: "Tüm hakları saklıdır.",
+    storeNotice:
+      "Apple ve Apple logosu, Apple Inc.'in ABD ve diğer ülkelerde tescilli ticari markalarıdır. App Store, Apple Inc.'in hizmet markasıdır. Google Play ve Google Play logosu Google LLC'nin ticari markalarıdır. HUAWEI ve AppGallery, Huawei Technologies Co., Ltd.'nin ticari markalarıdır.",
     founded: "Kuruluş",
     mersis: "MERSİS No",
     tax: (office: string, no: string) => `${office} V.D. ${no}`,
@@ -323,6 +325,8 @@ const en: Dictionary = {
     contact: "Contact",
     technologies: "Technologies",
     rights: "All rights reserved.",
+    storeNotice:
+      "Apple and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other countries. App Store is a service mark of Apple Inc. Google Play and the Google Play logo are trademarks of Google LLC. HUAWEI and AppGallery are trademarks of Huawei Technologies Co., Ltd.",
     founded: "Founded",
     mersis: "MERSİS No",
     tax: (office: string, no: string) => `Tax ID ${no} (${office} Tax Office)`,

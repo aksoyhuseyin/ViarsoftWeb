@@ -11,6 +11,56 @@ export interface ProductLink {
   href: string;
 }
 
+export type StoreId = "appStore" | "googlePlay" | "appGallery";
+
+export interface BadgeImage {
+  src: string;
+  width: number;
+  height: number;
+}
+
+/**
+ * Resmî mağaza rozetleri (public/rozetler/). Üç mağaza da rozetin yeniden
+ * çizilmesine izin vermez, kendi logolu düğme yapılmaz.
+ * Apple kuralları: dizide İLK sırada, siyah, en az 40px yükseklik, rozet çevresi
+ * boşluğu yüksekliğin en az ¼'ü. Huawei: AppGallery rozeti diğerlerinden küçük
+ * olamaz (hepsi aynı yükseklikte). Kredi satırı: dictionary `footer.storeNotice`.
+ * Google Play rozetlerinde yalnız kenardaki saydam boşluk kırpıldı.
+ * ⚠ appgallery-en yok: İngilizce rozet yalnız AppGallery Connect'te üretiliyor,
+ * /en/ şimdilik TR rozeti gösteriyor.
+ */
+export const storeBadges: {
+  id: StoreId;
+  /** Rozetin yazısı: ekran okuyucu metni (mağazanın resmî ifadesi). */
+  label: Record<Locale, string>;
+  image: Record<Locale, BadgeImage>;
+}[] = [
+  {
+    id: "appStore",
+    label: { tr: "App Store'dan indirin", en: "Download on the App Store" },
+    image: {
+      tr: { src: "/rozetler/app-store-tr.svg", width: 151, height: 40 },
+      en: { src: "/rozetler/app-store-en.svg", width: 120, height: 40 },
+    },
+  },
+  {
+    id: "googlePlay",
+    label: { tr: "Google Play'den indirin", en: "Get it on Google Play" },
+    image: {
+      tr: { src: "/rozetler/google-play-tr.png", width: 646, height: 192 },
+      en: { src: "/rozetler/google-play-en.png", width: 564, height: 168 },
+    },
+  },
+  {
+    id: "appGallery",
+    label: { tr: "AppGallery ile keşfedin", en: "Explore it on AppGallery" },
+    image: {
+      tr: { src: "/rozetler/appgallery-tr.png", width: 851, height: 256 },
+      en: { src: "/rozetler/appgallery-tr.png", width: 851, height: 256 },
+    },
+  },
+];
+
 export interface Product {
   slug: string;
   name: string;
@@ -22,6 +72,8 @@ export interface Product {
   tagline: Record<Locale, string>;
   description: Record<Locale, string>;
   highlights: Record<Locale, string[]>;
+  /** Mobil mağaza adresleri; sıra ve görsel `storeBadges`'ten gelir. */
+  stores: Record<StoreId, string>;
   links: ProductLink[];
   /** JSON-LD SoftwareApplication alanları */
   schema: {
@@ -61,20 +113,13 @@ export const products: Product[] = [
         "Monthly / yearly subscription model",
       ],
     },
+    stores: {
+      appStore: "https://apps.apple.com/tr/app/ko%C3%A7pro/id6795246036",
+      googlePlay: "https://play.google.com/store/apps/details?id=com.viarsoft.kocpro",
+      appGallery: "https://appgallery.huawei.com/app/C119135011",
+    },
     links: [
       { label: { tr: "Web sitesi", en: "Website" }, href: "https://kocpro.com.tr" },
-      {
-        label: { tr: "App Store", en: "App Store" },
-        href: "https://apps.apple.com/tr/app/ko%C3%A7pro/id6795246036",
-      },
-      {
-        label: { tr: "Google Play", en: "Google Play" },
-        href: "https://play.google.com/store/apps/details?id=com.viarsoft.kocpro",
-      },
-      {
-        label: { tr: "AppGallery", en: "AppGallery" },
-        href: "https://appgallery.huawei.com/app/C119135011",
-      },
     ],
     schema: {
       applicationCategory: "BusinessApplication",
@@ -111,20 +156,13 @@ export const products: Product[] = [
         "Escrow-style secure payments",
       ],
     },
+    stores: {
+      appStore: "https://apps.apple.com/tr/app/exper-cebimde-oto-ekspertiz/id6819848147",
+      googlePlay: "https://play.google.com/store/apps/details?id=com.expercebimde.exper_cebimde",
+      appGallery: "https://url.cloud.huawei.com/CEQeX5uLIs?shareTo=qrcode",
+    },
     links: [
       { label: { tr: "Web sitesi", en: "Website" }, href: "https://expercebimde.com" },
-      {
-        label: { tr: "App Store", en: "App Store" },
-        href: "https://apps.apple.com/tr/app/exper-cebimde-oto-ekspertiz/id6819848147",
-      },
-      {
-        label: { tr: "Google Play", en: "Google Play" },
-        href: "https://play.google.com/store/apps/details?id=com.expercebimde.exper_cebimde",
-      },
-      {
-        label: { tr: "AppGallery", en: "AppGallery" },
-        href: "https://url.cloud.huawei.com/CEQeX5uLIs?shareTo=qrcode",
-      },
       {
         label: { tr: "Web uygulaması", en: "Web app" },
         href: "https://app.expercebimde.com",
