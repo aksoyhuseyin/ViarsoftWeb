@@ -71,6 +71,10 @@ export const products: Product[] = [
         label: { tr: "Google Play", en: "Google Play" },
         href: "https://play.google.com/store/apps/details?id=com.viarsoft.kocpro",
       },
+      {
+        label: { tr: "AppGallery", en: "AppGallery" },
+        href: "https://appgallery.huawei.com/app/C119135011",
+      },
     ],
     schema: {
       applicationCategory: "BusinessApplication",
@@ -86,7 +90,7 @@ export const products: Product[] = [
       tr: "Pazar yeri · Uzaktan oto ekspertiz",
       en: "Marketplace · Remote vehicle inspection",
     },
-    status: { tr: "Web'de yayında", en: "Live on the web" },
+    status: { tr: "Yayında", en: "Live" },
     tagline: {
       tr: "Şehir dışındaki aracı görmeye gitmeden ekspertizden geçirin.",
       en: "Get a used car inspected without travelling to see it.",
@@ -97,18 +101,30 @@ export const products: Product[] = [
     },
     highlights: {
       tr: [
-        "Web'de yayında, iOS ve Android yakında",
+        "iOS ve Android'de yayında",
         "TSE belgeli ekspertiz firmaları",
         "Güvenceli (havuz) ödeme",
       ],
       en: [
-        "Live on the web; iOS and Android coming soon",
+        "Live on iOS and Android",
         "TSE-certified inspection partners",
         "Escrow-style secure payments",
       ],
     },
     links: [
       { label: { tr: "Web sitesi", en: "Website" }, href: "https://expercebimde.com" },
+      {
+        label: { tr: "App Store", en: "App Store" },
+        href: "https://apps.apple.com/tr/app/exper-cebimde-oto-ekspertiz/id6819848147",
+      },
+      {
+        label: { tr: "Google Play", en: "Google Play" },
+        href: "https://play.google.com/store/apps/details?id=com.expercebimde.exper_cebimde",
+      },
+      {
+        label: { tr: "AppGallery", en: "AppGallery" },
+        href: "https://url.cloud.huawei.com/CEQeX5uLIs?shareTo=qrcode",
+      },
       {
         label: { tr: "Web uygulaması", en: "Web app" },
         href: "https://app.expercebimde.com",
